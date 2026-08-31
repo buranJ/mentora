@@ -1,0 +1,56 @@
+name: learnhouse-dev
+
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: learnhouse-db-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: learnhouse
+      POSTGRES_PASSWORD: learnhouse
+      POSTGRES_DB: learnhouse
+    ports:
+      - "5433:5432"
+    volumes:
+      - learnhouse_db_dev_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U learnhouse"]
+      interval: 5s
+      timeout: 4s
+      retries: 5
+
+  redis:
+    image: redis:8.6.1-alpine
+    container_name: learnhouse-redis-dev
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    ports:
+      - "6379:6379"
+    volumes:
+      - learnhouse_redis_dev_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 4s
+      retries: 5
+
+  livekit:
+    image: livekit/livekit-server:v1.13.5
+    container_name: mentora-livekit-dev
+    restart: unless-stopped
+    # Official development mode supplies the deliberately local devkey/secret
+    # pair. The API keeps those values in its ignored .env, never the web app.
+    command: --dev --bind 0.0.0.0 --node-ip host.docker.internal
+    ports:
+      - "7880:7880"
+      - "7881:7881"
+      - "7882:7882/udp"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:7880/ || test $? -eq 8"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+volumes:
+  learnhouse_db_dev_data:
+  learnhouse_redis_dev_data:

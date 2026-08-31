@@ -71,3 +71,7 @@ apps/api/ee
 # Playwright MCP session artifacts
 .playwright-mcp/
 .demo-secrets
+
+# Generated assistant instructions kept local to this workspace.
+apps/web/AGENTS.md
+apps/web/CLAUDE.md
