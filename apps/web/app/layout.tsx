@@ -1,4 +1,5 @@
 import '../styles/globals.css'
+import '@livekit/components-styles'
 import React from 'react'
 import Providers from '@components/Providers'
 import { Wix_Madefor_Text, Tajawal } from 'next/font/google'

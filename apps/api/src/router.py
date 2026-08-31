@@ -9,7 +9,7 @@ from src.routers import demo as demo_router_module
 from src.routers import instance
 from src.routers import plans
 from src.routers import usergroups
-from src.routers import dev, trail, users, auth, orgs, roles, search
+from src.routers import dev, trail, users, auth, orgs, roles, search, live_sessions
 from src.routers import mfa as mfa_router_module
 from src.routers import monitoring
 from src.routers import nudges as nudges_router_module
@@ -200,6 +200,11 @@ v1_router.include_router(
     tags=["admin"],
 )
 v1_router.include_router(courses.router, prefix="/courses", tags=["courses"])
+v1_router.include_router(
+    live_sessions.router,
+    prefix="/live-sessions",
+    tags=["live-sessions"],
+)
 v1_router.include_router(
     migration_router_module.router,
     prefix="/courses",
