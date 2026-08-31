@@ -72,6 +72,5 @@ apps/api/ee
 .playwright-mcp/
 .demo-secrets
 
-# Generated assistant instructions kept local to this workspace.
 apps/web/AGENTS.md
 apps/web/CLAUDE.md
